@@ -60,19 +60,19 @@
               <h3>{{ isZh ? '联系信息' : 'Contact Information' }}</h3>
               <div class="contact-item">
                 <span class="contact-label">Email</span>
-                <span>info@sunshinetrade.com</span>
+                <span>oldobj@163.com</span>
               </div>
               <div class="contact-item">
                 <span class="contact-label">{{ isZh ? '电话' : 'Phone' }}</span>
-                <span>+86 755 8888 8888</span>
+                <span>+86 136 4413 3963</span>
               </div>
               <div class="contact-item">
                 <span class="contact-label">WhatsApp</span>
-                <span>+86 138 0000 0000</span>
+                <span>+86 136 4413 3963</span>
               </div>
               <div class="contact-item">
                 <span class="contact-label">{{ isZh ? '地址' : 'Address' }}</span>
-                <span>{{ isZh ? '中国深圳福田' : 'Shenzhen, China' }}</span>
+                <span>{{ isZh ? '中国沈阳福田' : 'Shenyang, China' }}</span>
               </div>
               <div class="contact-item">
                 <span class="contact-label">{{ isZh ? '工作时间' : 'Working Hours' }}</span>
@@ -129,6 +129,15 @@ async function handleSubmit() {
   const saved = JSON.parse(localStorage.getItem('inquiries') || '[]')
   saved.unshift(inquiry)
   localStorage.setItem('inquiries', JSON.stringify(saved))
+  try {
+    await fetch(window.location.origin + '/api/inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(inquiry)
+    });
+  } catch(e) {
+    console.warn('API save failed:', e);
+  }
 
   // Send email notification if configured (optional)
   if (emailConfig.enabled) {
@@ -145,7 +154,7 @@ async function handleSubmit() {
           quantity: form.value.quantity,
           message: form.value.message,
           inquiry_date: new Date().toLocaleString(),
-          to_email: 'info@sunshinetrade.com'
+          to_email: 'oldobj@163.com'
         },
         emailConfig.publicKey
       )
